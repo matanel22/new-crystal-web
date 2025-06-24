@@ -10,11 +10,8 @@ import Table from "../../components/Table";
 import PopupFilterEmployees from "@/app/components/employees/PopupFilterEmployees";
 import { parse, isEqual, isWithinInterval, parseISO } from "date-fns";
 
-import axios from "@/app/lib/axios";
 import AddNewEmployee from "@/app/components/employees/AddNewEmployee";
 import { Toaster } from "react-hot-toast";
-
-// import axios from "axios";
 
 export default function Employees() {
   //FOR CONTAIN THE EMPLOYEES
@@ -306,11 +303,11 @@ export default function Employees() {
 
       <div className=" dirLtr overflow-y-auto rounded-xl">
         <div className=" h-full ">
-          <Table
+          {/* <Table
             data={showEmployeesOrFilter}
             headTable={headTable}
             deleteEmployeeById={deleteEmployeeById}
-          />
+          /> */}
         </div>
         <Toaster position="top-center" />
       </div>

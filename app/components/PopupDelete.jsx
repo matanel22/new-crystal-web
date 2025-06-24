@@ -10,7 +10,6 @@ export default function PopupDelete({
   btnText,
   urlPage,
 }) {
-  console.log(objectToDelete);
   
   const axiosDelete = async () => {
     try {

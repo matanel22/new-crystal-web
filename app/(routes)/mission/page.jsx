@@ -1,19 +1,17 @@
 "use client";
 import Search from "../../components/ui/Search";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-// import MissionTable from "@/app/components/missions/MissionTable";
+import { useState } from "react";
 import PopupDelete from "@/app/components/PopupDelete";
-// import PopupMission from "@/app/components/missions/PopupMission";
 import FilterMission from "@/app/components/FilterMission";
 import { parse, isEqual, isWithinInterval } from "date-fns";
-import MissionTable from "@/app/components/missions/MissionTable";
 import PopupMission from "@/app/components/missions/PopupMission";
 import * as XLSX from "xlsx";
-// import axios, { Axios } from "axios";
+import MainTable from "@/app/components/table/MainTable";
 
 const data = [
   {
+    trash: "",
     id: "00111",
     Mission_number: "111111",
     Mission_name: "אא משימה שם משימה שם משימה",
@@ -25,15 +23,10 @@ const data = [
     Ktzin_nosse_name: "שש ישראל ישראלי",
     Status: "לא פעיל",
     Interest_level: 'רמ"ד',
-    Leading_section: "גבוה",
-    Approved_budget: "289",
-    Approved_hours: "3",
-    Approved_route_days: "5",
-    Sections: ["מדור 1", "מדור 34"],
-    createdBy: "אלוף ישראל",
   },
   {
-    id: "0022",
+    trash: "",
+    id: "00022",
     Mission_number: "222222",
     Mission_name: "בב משימה שם משימה שם משימה",
     Mission_type: "סוג משימה",
@@ -44,14 +37,9 @@ const data = [
     Ktzin_nosse_name: "תת ישראל ישראלי",
     Status: "לא פעיל",
     Interest_level: 'ש"ש',
-    Leading_section: "גבוה",
-    Approved_budget: "289",
-    Approved_hours: "3",
-    Approved_route_days: "5",
-    Sections: ["מדור 1", "מדור 34"],
-    createdBy: "אלוף ישראל",
   },
   {
+    trash: "",
     id: "00333",
     Mission_number: "333333",
     Mission_name: "שם משימה שם משימה שם משימה",
@@ -63,14 +51,9 @@ const data = [
     Ktzin_nosse_name: 'רנ"ג ישראל ישראלי',
     Status: "פעיל",
     Interest_level: 'רמ"ד',
-    Leading_section: "גבוה",
-    Approved_budget: "289",
-    Approved_hours: "3",
-    Approved_route_days: "5",
-    Sections: ["מדור 1", "מדור 34"],
-    createdBy: "אלוף ישראל",
   },
   {
+    trash: "",
     id: "00444",
     Mission_number: "444444",
     Mission_name: "שם משימה שם משימה שם משימה",
@@ -82,14 +65,9 @@ const data = [
     Ktzin_nosse_name: 'רנ"ג ישראל ישראלי',
     Status: "פעיל",
     Interest_level: 'רמ"ד',
-    Leading_section: "גבוה",
-    Approved_budget: "289",
-    Approved_hours: "3",
-    Approved_route_days: "5",
-    Sections: ["מדור 1", "מדור 34"],
-    createdBy: "אלוף ישראל",
   },
   {
+    trash: "",
     id: "00555",
     Mission_number: "12346",
     Mission_name: "שם משימה שם משימה שם משימה",
@@ -101,14 +79,9 @@ const data = [
     Ktzin_nosse_name: 'רנ"ג ישראל ישראלי',
     Status: "פעיל",
     Interest_level: "תת",
-    Leading_section: "גבוה",
-    Approved_budget: "289",
-    Approved_hours: "3",
-    Approved_route_days: "5",
-    Sections: ["מדור 1", "מדור 34"],
-    createdBy: "אלוף ישראל",
   },
   {
+    trash: "",
     id: "00666",
     Mission_number: "12345",
     Mission_name: "שם משימה שם משימה שם משימה",
@@ -120,14 +93,107 @@ const data = [
     Ktzin_nosse_name: 'רנ"ג ישראל ישראלי',
     Status: "פעיל",
     Interest_level: 'רמ"ד',
-    Leading_section: "גבוה",
-    Approved_budget: "289",
-    Approved_hours: "3",
-    Approved_route_days: "5",
-    Sections: ["מדור 1", "מדור 34"],
-    createdBy: "אלוף ישראל",
+  },
+  {
+    trash: "",
+    id: "01111",
+    Mission_number: "111",
+    Mission_name: "אא משימה שם משימה שם משימה",
+    Mission_type: "סוג משימה משימהמשימהמשימה",
+    Year: "2024",
+    Paying_factor: "אמת",
+    Opening_date: "2024-02-01",
+    Closing_date: "2024-03-02",
+    Ktzin_nosse_name: "שש ישראל ישראלי",
+    Status: "לא פעיל",
+    Interest_level: 'רמ"ד',
+  },
+  {
+    trash: "",
+    id: "00222",
+    Mission_number: "24343",
+    Mission_name: "בב משימה שם משימה שם משימה",
+    Mission_type: "סוג משימה",
+    Year: "2022",
+    Paying_factor: "תקיפה",
+    Opening_date: "2024-04-04",
+    Closing_date: "2024-04-04",
+    Ktzin_nosse_name: "תת ישראל ישראלי",
+    Status: "לא פעיל",
+    Interest_level: 'ש"ש',
+  },
+  {
+    trash: "",
+    id: "03333",
+    Mission_number: "4244",
+    Mission_name: "שם משימה שם משימה שם משימה",
+    Mission_type: "סוג משימה",
+    Year: "2024",
+    Paying_factor: "תחמושת",
+    Opening_date: "2023-01-01",
+    Closing_date: "2023-04-02",
+    Ktzin_nosse_name: 'רנ"ג ישראל ישראלי',
+    Status: "פעיל",
+    Interest_level: 'רמ"ד',
+  },
+  {
+    trash: "",
+    id: "04444",
+    Mission_number: "22223",
+    Mission_name: "שם משימה שם משימה שם משימה",
+    Mission_type: "סוג משימה",
+    Year: "2023",
+    Paying_factor: "תחמושת",
+    Opening_date: "2024-01-01",
+    Closing_date: "2024-04-02",
+    Ktzin_nosse_name: 'רנ"ג ישראל ישראלי',
+    Status: "פעיל",
+    Interest_level: 'רמ"ד',
+  },
+  {
+    trash: "",
+    id: "05555",
+    Mission_number: "34224",
+    Mission_name: "שם משימה שם משימה שם משימה",
+    Mission_type: "סוג משימה",
+    Year: "2024",
+    Paying_factor: "תחמושת",
+    Opening_date: "2024-03-02",
+    Closing_date: "2024-10-02",
+    Ktzin_nosse_name: 'רנ"ג ישראל ישראלי',
+    Status: "פעיל",
+    Interest_level: "תת",
+  },
+  {
+    trash: "",
+    id: "06666",
+    Mission_number: "1234245",
+    Mission_name: "שם משימה שם משימה שם משימה",
+    Mission_type: "סוג משימה",
+    Year: "2024",
+    Paying_factor: "תחמושת",
+    Opening_date: "2024-01-01",
+    Closing_date: "2024-10-02",
+    Ktzin_nosse_name: 'רנ"ג ישראל ישראלי',
+    Status: "פעיל",
+    Interest_level: 'רמ"ד',
   },
 ];
+
+const headTable = [
+  " ",
+  { title: "מספר משימה", icon: "filterArrowUp.svg" },
+  { title: "שם משימה", icon: "filterArrowDown.svg" },
+  { title: "סוג משימה", icon: "filterArrowStatic.svg" },
+  { title: "שנה", icon: "filterArrowStatic.svg" },
+  { title: 'גמ"ש', icon: "filterArrowStatic.svg" },
+  { title: "ת.פתיחה", icon: "filterArrowStatic.svg" },
+  { title: "ת.סגירה", icon: "filterArrowStatic.svg" },
+  { title: "שם קצין נושא", icon: "filterArrowStatic.svg" },
+  { title: "סטטוס", icon: "filterArrowStatic.svg" },
+  { title: "רמת עניין", icon: "filterArrowStatic.svg" },
+];
+
 export default function Mission() {
   // const [updateMode, setUpdateMode] = useState(null);
 
@@ -161,19 +227,6 @@ export default function Mission() {
 
   //   fetchMissions();
   // }, []);
-
-  const headers = [
-    "מספר משימה",
-    "שם משימה",
-    "סוג משימה",
-    "שנה",
-    'גמ"ש',
-    "ת.פתיחה",
-    "ת.סגירה",
-    "שם קצין נושא",
-    "סטטוס",
-    "רמת עניין",
-  ];
 
   // מביא את כל המשימות או את הסינון
   const showMissionsOrFilter = filterData
@@ -286,6 +339,7 @@ export default function Mission() {
   // ייצוא לקובץ אקסל
   const EXCEL_TYPE =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+
   const handleExportToExcel = () => {
     const formattedMissions = missions.map((mission) => ({
       ...mission,
@@ -319,91 +373,87 @@ export default function Mission() {
   };
 
   return (
-    <div className="h-full px-3  ">
-      <div className="flex  ">
-        <div className="w-full flex justify-between mx-4">
-          <Search
-            className="w-full"
-            textBtn={"הוסף משימה"}
-            addImage={add}
-            addNew={handleAddMission}
+    <>
+      <div className=" px-3">
+        <div className="flex  ">
+          <div className="w-full flex justify-between mx-4">
+            <Search
+              className="w-full"
+              textBtn={"הוסף משימה"}
+              addImage={add}
+              addNew={handleAddMission}
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 w-full">
+            <div
+              onClick={handlePopUpFilter}
+              className=" relative  flex text-xl text-center hover:cursor-pointer items-center font-medium  justify-end border-2 border-[#002A78] rounded-full"
+            >
+              <div className="px-3 flex gap-2  truncate">
+                <Image
+                  src={"/filter.svg"}
+                  width={15}
+                  height={15}
+                  alt="download"
+                />
+                <div>סינון</div>
+              </div>
+
+              {filterPopUp && (
+                <FilterMission
+                  setFilterPopUp={setFilterPopUp}
+                  filterPopUp={filterPopUp}
+                  filterSearch={filterSearch}
+                  closeFilter={setFilterPopUp}
+                />
+              )}
+            </div>
+            <div className="bg-[#002A78] hover:cursor-pointer px-5 text-white text-xl rounded-full text-center items-center flex justify-center ">
+              <div className="ml-2 truncate">
+                <Image
+                  src={"/downloadArrow.svg"}
+                  width={20}
+                  height={20}
+                  alt="download"
+                />
+              </div>
+              <div className="truncate">הפקת דוח דיווח ימי עמדה</div>
+            </div>
+
+            <div
+              onClick={handleExportToExcel}
+              className="bg-[#1D7044] hover:cursor-pointer px-4 gap-2 text-white text-xl rounded-full text-center items-center flex justify-center "
+            >
+              <Image src={"/excel.png"} width={20} height={20} alt="excel" />
+              <div className="truncate">ייצוא לאקסל</div>
+            </div>
+          </div>
+        </div>
+        {/* {filterPopUp && <div><FilterMission/></div>} */}
+
+        <MainTable headTable={headTable} initialTableData={data} />
+
+        {showConfirmation && (
+          <PopupDelete
+            popUpState={showConfirmation}
+            objectToDelete={missionIdToDelete}
+            showPopup={setShowConfirmation}
+            headerText={`מחיקת משימה`}
+            messageText={"האם אתה בטוח שאתה רוצה למחוק את משימה "}
+            btnText={"מחק"}
           />
-        </div>
+        )}
 
-        <div className="flex justify-end gap-3 w-full">
-          <div
-            onClick={handlePopUpFilter}
-            className=" relative  flex text-xl text-center hover:cursor-pointer items-center font-medium  justify-end border-2 border-[#002A78] rounded-full"
-          >
-            <div className="px-3 flex gap-2  truncate">
-              <Image
-                src={"/filter.svg"}
-                width={15}
-                height={15}
-                alt="download"
-              />
-              <div>סינון</div>
-            </div>
-
-            {filterPopUp && (
-              <FilterMission
-                setFilterPopUp={setFilterPopUp}
-                filterPopUp={filterPopUp}
-                filterSearch={filterSearch}
-                closeFilter={setFilterPopUp}
-              />
-            )}
-          </div>
-          <div className="bg-[#002A78] hover:cursor-pointer px-5 text-white text-xl rounded-full text-center items-center flex justify-center ">
-            <div className="ml-2 truncate">
-              <Image
-                src={"/downloadArrow.svg"}
-                width={20}
-                height={20}
-                alt="download"
-              />
-            </div>
-            <div className="truncate">הפקת דוח דיווח ימי עמדה</div>
-          </div>
-
-          <div
-            onClick={handleExportToExcel}
-            className="bg-[#1D7044] hover:cursor-pointer px-4 gap-2 text-white text-xl rounded-full text-center items-center flex justify-center "
-          >
-            <Image src={"/excel.png"} width={20} height={20} alt="excel" />
-            <div className="truncate">ייצוא לאקסל</div>
-          </div>
-        </div>
+        {showPopupNewMission && (
+          <PopupMission
+            showPopup={showPopupNewMission}
+            setShowPopup={setShowPopupNewMission}
+            // handleSubmit={handleSubmit}
+            setMissions={setMissions}
+          />
+        )}
       </div>
-      {/* {filterPopUp && <div><FilterMission/></div>} */}
-
-      <MissionTable
-        data={showMissionsOrFilter}
-        // updateMode={updateMode}
-        // setUpdateMode={setUpdateMode}
-        headTable={headers}
-        deleteEmployee={deleteMission}
-      />
-
-      {showConfirmation && (
-        <PopupDelete
-          popUpState={showConfirmation}
-          objectToDelete={missionIdToDelete}
-          showPopup={setShowConfirmation}
-          headerText={`מחיקת משימה`}
-          messageText={"האם אתה בטוח שאתה רוצה למחוק את משימה "}
-          btnText={"מחק"}
-        />
-      )}
-
-      {showPopupNewMission && (
-        <PopupMission
-          showPopup={showPopupNewMission}
-          setShowPopup={setShowPopupNewMission}
-          // handleSubmit={handleSubmit}
-          setMissions={setMissions}
-        />
-      )}
-    </div>
+    </>
   );
 }

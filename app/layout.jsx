@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
       theme="colored"
       transition={Bounce} 
       /> */}
-          <div className="flex-1 px-4 py-1 overflow-hidden ">{children}</div>
+          <div className="flex-1 px-4 py-1 ">{children}</div>
           <div className="text-center pt-1 text-[#A5A5A5]">
             פותח ע"י מסגרת אמ"ת{" "}
           </div>
