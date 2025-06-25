@@ -3,14 +3,17 @@
 import axios from "@/app/lib/axios";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import Button from "./Button";
+import Image from "next/image";
 
 export default function Search({
-  textBtn,
+  btnTxt,
+  btnImage,
+  btnFunc,
+  searchText,
   formatData,
   addNew,
-  addImage,
   bg,
-  searchText,
   missionDay,
   searchEmployees,
   setEmployees,
@@ -47,35 +50,41 @@ export default function Search({
   return (
     <div
       className={clsx(
-        "w-full justify-center flex  h-10 border border-white relative rounded-full items-center ",
+        "w-full flex h-10 border border-white rounded-full items-center",
         {
-          " bg-gradient-to-r from-blue_color via-blue_color to-[#EFF3FB]":
+          "bg-gradient-to-r from-blue_color via-blue_color to-[#EFF3FB]":
             !missionDay,
         }
       )}
     >
-      <input
-        className={clsx(
-          "rounded-full pr-2 outline-none h-full placeholder:text-blue_color w-full bg-[#EFF3FB]",
-          { "bg-white border": bg },
-          { "w-[85%]": !missionDay }
-        )}
-        value={query}
-        onChange={handleSearch}
-        //  onInput={handleSearch}
-        placeholder={searchText}
-      />
-
+      {/* Input + Icon */}
+      <div className="relative flex-1 h-full">
+        <input
+          className={clsx(
+            "rounded-full pr-2 pl-10 outline-none h-full placeholder:text-blue_color w-full bg-[#EFF3FB]",
+            { "bg-white border": bg },
+            { "w-[85%]": !missionDay }
+          )}
+          value={query}
+          onChange={handleSearch}
+          placeholder={searchText}
+        />
+        <Image
+          src={"/MagnifyingGlass.svg"}
+          alt="Search"
+          width={20}
+          height={20}
+          className="absolute left-3 top-1/2 -translate-y-1/2"
+        />
+      </div>
       {!missionDay && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation(), addNew();
-          }}
-          className="w-[20%] flex justify-center gap-2 items-center  whitespace-nowrap  left-0 text-gray-100 font-normal  text-[20px] "
-        >
-          <div>{textBtn}</div>
-          <div>{addImage}</div>
-        </button>
+        <div className="ml-2">
+          <Button
+            textBtn={btnTxt}
+            image={btnImage}
+            onClick={btnFunc}
+          />
+        </div>
       )}
     </div>
   );

@@ -8,6 +8,8 @@ import { parse, isEqual, isWithinInterval } from "date-fns";
 import PopupMission from "@/app/components/missions/PopupMission";
 import * as XLSX from "xlsx";
 import MainTable from "@/app/components/table/MainTable";
+import { DeleteLogic, TextCellLogic } from "@/app/components/table/cellLogics";
+import Button from "@/app/components/ui/Button";
 
 const data = [
   {
@@ -194,6 +196,24 @@ const headTable = [
   { title: "רמת עניין", icon: "filterArrowStatic.svg" },
 ];
 
+const addImage = (
+  <Image src={"/addEmployee.svg"} width={20} height={20} alt="plus" />
+);
+const exelImage = (
+  <Image src={"/excel.png"} width={20} height={20} alt="excel" />
+);
+const filterImage = (
+  <Image src={"/filter.svg"} width={15} height={15} alt="download" />
+);
+const dowloadImage = (
+  <Image src={"/downloadArrow.svg"} width={20} height={20} alt="download" />
+);
+const btnTxt = [
+  "סינון",
+  "הוסף משימה",
+  "הפקת דוח דיווח ימי עמדה",
+  "ייצוא לאקסל",
+];
 export default function Mission() {
   // const [updateMode, setUpdateMode] = useState(null);
 
@@ -212,98 +232,85 @@ export default function Mission() {
   // מביא את הסינון
   const [filterData, setFilterData] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchMissions = async () => {
-  //     try {
-  //       const response = await axios.get("http://127.0.0.1:8000/api/missions/"); // Replace with your API endpoint
-  //       setMissions(response.data); // Assuming response.data contains the array of mission data
-  //     } catch (error) {
-  //       console.error("שגיאה בהבאת המשימות", error);
-  //     }
-  //     //  finally {
-  //     //   setLoading(false); // Once data is fetched, set loading to false
-  //     // }
-  //   };
-
   //   fetchMissions();
   // }, []);
 
   // מביא את כל המשימות או את הסינון
-  const showMissionsOrFilter = filterData
-    ? missions.filter((mission) => {
-        let matches = true;
+  // const showMissionsOrFilter = filterData
+  //   ? missions.filter((mission) => {
+  //       let matches = true;
 
-        // ממיר סטרינג מתאריך המשימה לאובייקט כדי לבדוק אותו
-        const missionOpeningDate = parse(
-          mission.Opening_date,
-          "dd/MM/yyyy",
-          new Date()
-        );
-        const missionClosingDate = parse(
-          mission.Closing_date,
-          "dd/MM/yyyy",
-          new Date()
-        );
+  //       // ממיר סטרינג מתאריך המשימה לאובייקט כדי לבדוק אותו
+  //       const missionOpeningDate = parse(
+  //         mission.Opening_date,
+  //         "dd/MM/yyyy",
+  //         new Date()
+  //       );
+  //       const missionClosingDate = parse(
+  //         mission.Closing_date,
+  //         "dd/MM/yyyy",
+  //         new Date()
+  //       );
 
-        // ממיר סטרינג מתאריך הפילטר לאובייקט כדי לבדוק אותו
-        const filterOpeningDate = filterData?.Opening_date
-          ? parse(filterData.Opening_date, "yyyy-MM-dd", new Date())
-          : null;
-        const filterClosingDate = filterData?.Closing_date
-          ? parse(filterData.Closing_date, "yyyy-MM-dd", new Date())
-          : null;
+  //       // ממיר סטרינג מתאריך הפילטר לאובייקט כדי לבדוק אותו
+  //       const filterOpeningDate = filterData?.Opening_date
+  //         ? parse(filterData.Opening_date, "yyyy-MM-dd", new Date())
+  //         : null;
+  //       const filterClosingDate = filterData?.Closing_date
+  //         ? parse(filterData.Closing_date, "yyyy-MM-dd", new Date())
+  //         : null;
 
-        // פילטר שנה
-        if (filterData?.Year && mission.Year !== filterData.Year) {
-          matches = false;
-        }
+  //       // פילטר שנה
+  //       if (filterData?.Year && mission.Year !== filterData.Year) {
+  //         matches = false;
+  //       }
 
-        // פילטר גמ"ש
-        if (
-          filterData?.Paying_factor &&
-          mission.Paying_factor !== filterData.Paying_factor
-        ) {
-          matches = false;
-        }
+  //       // פילטר גמ"ש
+  //       if (
+  //         filterData?.Paying_factor &&
+  //         mission.Paying_factor !== filterData.Paying_factor
+  //       ) {
+  //         matches = false;
+  //       }
 
-        // פילטר סטטוס
-        if (filterData?.Status && mission.Status !== filterData.Status) {
-          matches = false;
-        }
+  //       // פילטר סטטוס
+  //       if (filterData?.Status && mission.Status !== filterData.Status) {
+  //         matches = false;
+  //       }
 
-        // פילטר רק על תאריך פתיחה
-        if (filterOpeningDate && !filterClosingDate) {
-          if (!isEqual(missionOpeningDate, filterOpeningDate)) {
-            matches = false;
-          }
-        }
+  //       // פילטר רק על תאריך פתיחה
+  //       if (filterOpeningDate && !filterClosingDate) {
+  //         if (!isEqual(missionOpeningDate, filterOpeningDate)) {
+  //           matches = false;
+  //         }
+  //       }
 
-        // פילטר רק על תאריך סגירה
-        if (filterClosingDate && !filterOpeningDate) {
-          if (!isEqual(missionClosingDate, filterClosingDate)) {
-            matches = false;
-          }
-        }
+  //       // פילטר רק על תאריך סגירה
+  //       if (filterClosingDate && !filterOpeningDate) {
+  //         if (!isEqual(missionClosingDate, filterClosingDate)) {
+  //           matches = false;
+  //         }
+  //       }
 
-        // פילטר על התאריכים
-        if (filterOpeningDate && filterClosingDate) {
-          const isInRange =
-            isWithinInterval(missionOpeningDate, {
-              start: filterOpeningDate,
-              end: filterClosingDate,
-            }) &&
-            isWithinInterval(missionClosingDate, {
-              start: filterOpeningDate,
-              end: filterClosingDate,
-            });
+  //       // פילטר על התאריכים
+  //       if (filterOpeningDate && filterClosingDate) {
+  //         const isInRange =
+  //           isWithinInterval(missionOpeningDate, {
+  //             start: filterOpeningDate,
+  //             end: filterClosingDate,
+  //           }) &&
+  //           isWithinInterval(missionClosingDate, {
+  //             start: filterOpeningDate,
+  //             end: filterClosingDate,
+  //           });
 
-          if (!isInRange) {
-            matches = false;
-          }
-        }
-        return matches;
-      })
-    : missions;
+  //         if (!isInRange) {
+  //           matches = false;
+  //         }
+  //       }
+  //       return matches;
+  //     })
+  //   : missions;
 
   {
     /*DELETE  EMPLOYEES*/
@@ -332,13 +339,19 @@ export default function Mission() {
     setFilterData(formData);
   };
 
-  const add = (
-    <Image src={"/addEmployee.svg"} width={20} height={20} alt="plus" />
-  );
-
   // ייצוא לקובץ אקסל
   const EXCEL_TYPE =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+
+  // ArrayBuffer -ממיר סטרינג ל
+  const s2ab = (s) => {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i < s.length; i++) {
+      view[i] = s.charCodeAt(i) & 0xff;
+    }
+    return buf;
+  };
 
   const handleExportToExcel = () => {
     const formattedMissions = missions.map((mission) => ({
@@ -362,14 +375,18 @@ export default function Mission() {
     document.body.removeChild(link);
   };
 
-  // ArrayBuffer -ממיר סטרינג ל
-  const s2ab = (s) => {
-    const buf = new ArrayBuffer(s.length);
-    const view = new Uint8Array(buf);
-    for (let i = 0; i < s.length; i++) {
-      view[i] = s.charCodeAt(i) & 0xff;
-    }
-    return buf;
+  const allColumnLogics = {
+    trash: DeleteLogic("trash", "", deleteMission),
+    Mission_number: TextCellLogic("Mission_number", ""),
+    Mission_name: TextCellLogic("Mission_name", ""),
+    Mission_type: TextCellLogic("Mission_type", ""),
+    Year: TextCellLogic("Year", ""),
+    Paying_factor: TextCellLogic("Paying_factor", ""),
+    Opening_date: TextCellLogic("Opening_date", ""),
+    Closing_date: TextCellLogic("Closing_date", ""),
+    Ktzin_nosse_name: TextCellLogic("Ktzin_nosse_name", ""),
+    Status: TextCellLogic("Status", ""),
+    Interest_level: TextCellLogic("Interest_level", ""),
   };
 
   return (
@@ -378,27 +395,29 @@ export default function Mission() {
         <div className="flex  ">
           <div className="w-full flex justify-between mx-4">
             <Search
-              className="w-full"
-              textBtn={"הוסף משימה"}
-              addImage={add}
-              addNew={handleAddMission}
+              btnTxt={btnTxt[1]}
+              btnImage={addImage}
+              btnFunc={handleAddMission}
+              searchText={"חיפוש"}
             />
+            {showPopupNewMission && (
+              <PopupMission
+                showPopup={showPopupNewMission}
+                setShowPopup={setShowPopupNewMission}
+                // handleSubmit={handleSubmit}
+                setMissions={setMissions}
+              />
+            )}
           </div>
 
           <div className="flex justify-end gap-3 w-full">
-            <div
-              onClick={handlePopUpFilter}
-              className=" relative  flex text-xl text-center hover:cursor-pointer items-center font-medium  justify-end border-2 border-[#002A78] rounded-full"
-            >
-              <div className="px-3 flex gap-2  truncate">
-                <Image
-                  src={"/filter.svg"}
-                  width={15}
-                  height={15}
-                  alt="download"
-                />
-                <div>סינון</div>
-              </div>
+            <div className=" relative  flex text-xl text-center hover:cursor-pointer items-center font-medium  justify-end border-2 border-[#002A78] rounded-full">
+              <Button
+                textBtn={btnTxt[0]}
+                image={filterImage}
+                color={"white"}
+                onClick={handlePopUpFilter}
+              />
 
               {filterPopUp && (
                 <FilterMission
@@ -409,30 +428,23 @@ export default function Mission() {
                 />
               )}
             </div>
-            <div className="bg-[#002A78] hover:cursor-pointer px-5 text-white text-xl rounded-full text-center items-center flex justify-center ">
-              <div className="ml-2 truncate">
-                <Image
-                  src={"/downloadArrow.svg"}
-                  width={20}
-                  height={20}
-                  alt="download"
-                />
-              </div>
-              <div className="truncate">הפקת דוח דיווח ימי עמדה</div>
-            </div>
 
-            <div
+            <Button textBtn={btnTxt[2]} image={dowloadImage} color={"blue"} />
+
+            <Button
+              textBtn={btnTxt[3]}
+              image={exelImage}
+              color={"green"}
               onClick={handleExportToExcel}
-              className="bg-[#1D7044] hover:cursor-pointer px-4 gap-2 text-white text-xl rounded-full text-center items-center flex justify-center "
-            >
-              <Image src={"/excel.png"} width={20} height={20} alt="excel" />
-              <div className="truncate">ייצוא לאקסל</div>
-            </div>
+            />
           </div>
         </div>
-        {/* {filterPopUp && <div><FilterMission/></div>} */}
 
-        <MainTable headTable={headTable} initialTableData={data} />
+        <MainTable
+          headTable={headTable}
+          initialTableData={data}
+          cellsLogics={allColumnLogics}
+        />
 
         {showConfirmation && (
           <PopupDelete
@@ -442,15 +454,6 @@ export default function Mission() {
             headerText={`מחיקת משימה`}
             messageText={"האם אתה בטוח שאתה רוצה למחוק את משימה "}
             btnText={"מחק"}
-          />
-        )}
-
-        {showPopupNewMission && (
-          <PopupMission
-            showPopup={showPopupNewMission}
-            setShowPopup={setShowPopupNewMission}
-            // handleSubmit={handleSubmit}
-            setMissions={setMissions}
           />
         )}
       </div>

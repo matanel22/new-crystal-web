@@ -12,7 +12,7 @@ const TableRow = ({ rowData, cellLogics, rowLogic, onRowClick }) => {
 
   return (
     <tr
-      className={`font-normal text-[16px] leading-5 text-blue_color border-b 
+      className={`min-h-[50px] font-normal text-[20px] leading-5 text-blue_color border-b 
         border-t-[#A7BFE8]/30 hover:bg-[#e1e8f3] transition-transform duration-200 
         ease-in-out`}
       data-row-id={rowData.id}

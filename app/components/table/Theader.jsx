@@ -11,7 +11,7 @@ const rounded = (i, headrData) => {
 const Theader = ({ headrData }) => {
   return (
     <thead className="bg-[#EFF3FB] sticky top-0 z-10 overflow-hidden ">
-      <tr className="w-full font-normal text-[24px] rounded leading-6 py-3 bg-blue_color text-center items-center text-white">
+      <tr className="w-full font-normal text-[24px] rounded leading-6 py-[8px] bg-blue_color text-center items-center text-white">
         {headrData.map((head, i) => (
           <th
             key={"header" + i}

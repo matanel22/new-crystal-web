@@ -11,19 +11,17 @@ export function TextCellLogic(id, initialValue) {
     renderContent: (value) => <Flow value={truncateText(value)} />,
   };
 }
-export function DeleteLogic(id, initialValue) {
+export function DeleteLogic(id, initialValue, onDelete) {
   return {
     id,
     initialValue,
     renderContent: (value) => (
       <Image
-        onClick={() => {
-          alert("you try to delete " + value);
-        }}
-        className={`pr-2  flex items-center justify-center hover:cursor-pointer transform hover:scale-105 transition-transform duration-200 ease-in-out`}
+        onClick={onDelete}
+        className={`pr-2 flex items-center justify-center hover:cursor-pointer transform hover:scale-105 transition-transform duration-200 ease-in-out`}
         src={"/trash.svg"}
-        height="30"
-        width="30"
+        height="40"
+        width="40"
         alt="trash"
       />
     ),

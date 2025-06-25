@@ -2,34 +2,25 @@ import React, { useState, useCallback } from "react";
 import TableRow from "./TableRow";
 import Theader from "./Theader";
 import { CellContext } from "./Context";
-import {
-  ButtonCellLogic,
-  DeleteLogic,
-  DeleteRowButtonCellLogic,
-  DropdownCellLogic,
-  EditableCellLogic,
-  Empty,
-  TextCellLogic,
-  TimeControlCellLogic,
-} from "./cellLogics";
 
 const MainTable = ({
   headTable = [],
   initialTableData = [],
+  cellsLogics,
   columnCellLogics,
   defaultRowLogic,
 }) => {
   const [tableData, setTableData] = useState(initialTableData);
 
-  const updateCellValue = useCallback((rowId, cellId, newValue) => {
-    setTableData((prevData) =>
-      prevData.map((row) =>
-        row.id === rowId
-          ? { ...row, cells: { ...row.cells, [cellId]: newValue } }
-          : row
-      )
-    );
-  }, []);
+  // const updateCellValue = useCallback((rowId, cellId, newValue) => {
+  //   setTableData((prevData) =>
+  //     prevData.map((row) =>
+  //       row.id === rowId
+  //         ? { ...row, cells: { ...row.cells, [cellId]: newValue } }
+  //         : row
+  //     )
+  //   );
+  // }, []);
 
   const handleRowClick = useCallback((rowId, rowData) => {
     alert(`Нажата строка с ID: ${rowId}. Открываем окно редактирования.`);
@@ -50,12 +41,12 @@ const MainTable = ({
     console.log(`Аннулируем время для ${rowId}/${cellId}.`);
   }, []);
 
-  const cellContextValue = React.useMemo(
-    () => ({
-      updateCellValue,
-    }),
-    [updateCellValue]
-  );
+  // const cellContextValue = React.useMemo(
+  //   () => ({
+  //     updateCellValue,
+  //   }),
+  //   [updateCellValue]
+  // );
 
   const editableRowLogic = React.useMemo(
     () => ({
@@ -67,23 +58,9 @@ const MainTable = ({
     [handleRowClick]
   );
 
-  const allColumnLogics = {
-    trash: DeleteLogic("trash", ""),
-    Mission_number: TextCellLogic("Mission_number", ""),
-    Mission_name: TextCellLogic("Mission_name", ""),
-    Mission_type: TextCellLogic("Mission_type", ""),
-    Year: TextCellLogic("Year", ""),
-    Paying_factor: TextCellLogic("Paying_factor", ""),
-    Opening_date: TextCellLogic("Opening_date", ""),
-    Closing_date: TextCellLogic("Closing_date", ""),
-    Ktzin_nosse_name: TextCellLogic("Ktzin_nosse_name", ""),
-    Status: TextCellLogic("Status", ""),
-    Interest_level: TextCellLogic("Interest_level", ""),
-  };
-
   return (
     // <CellContext.Provider value={cellContextValue}>
-    <div className="overflow-x-auto max-h-[550px] overflow-y-auto direction-ltr bg-[#EFF3FB] p-1 top-0 z-10 rounded">
+    <div className="overflow-x-auto overflow-y-auto max-h-[85vh] mt-20 direction-ltr bg-[#EFF3FB] p-1 top-0 z-10 rounded">
       <table className=" w-full divide-y">
         <Theader headrData={headTable} />
         <tbody className="w-full dirRtl bg-[#EFF3FB] ">
@@ -91,7 +68,7 @@ const MainTable = ({
             <TableRow
               key={"row" + row.id}
               rowData={row}
-              cellLogics={allColumnLogics}
+              cellLogics={cellsLogics}
               rowLogic={editableRowLogic}
               onRowClick={handleRowClick}
             />
