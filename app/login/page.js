@@ -1,8 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import useAuth from "../hooks/UseAuth";
-import { useAuthContext } from "../hooks/AuthContext";
+import useAuth from "../../hooks/UseAuth";
+import { useAuthContext } from "../../hooks/AuthContext";
 
 export default function Login() {
   const router = useRouter();

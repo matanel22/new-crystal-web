@@ -1,4 +1,4 @@
-import SettingsSideBar from "@/app/components/settings/SettingsSideBar";
+import SettingsSideBar from "@/components/settings/SettingsSideBar";
 
 import React from "react";
 

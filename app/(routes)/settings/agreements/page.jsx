@@ -1,6 +1,6 @@
-import SettingsSearch from "@/app/components/settings/SettingsSearch";
+import SettingsSearch from "@/components/settings/SettingsSearch";
 
-import TabieSettings from "@/app/components/settings/TableSettings";
+import TabieSettings from "@/components/settings/TableSettings";
 import Image from "next/image";
 import React from "react";
 

@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import PopupDay from "../../components/calender/PopupDay";
-import Exclusions from "../../components/calender/Exclusions";
-import Year from "../../components/calender/Year";
+import PopupDay from "../../../components/calender/PopupDay";
+import Exclusions from "../../../components/calender/Exclusions";
+import Year from "../../../components/calender/Year";
 import Image from "next/image";
 
 export default function Calendar() {
@@ -91,7 +91,11 @@ export default function Calendar() {
       )}
 
       {exclusions && (
-        <Exclusions missionDay={missionDay} openExclusion={openExclusion} setMissionDay={setMissionDay}/>
+        <Exclusions
+          missionDay={missionDay}
+          openExclusion={openExclusion}
+          setMissionDay={setMissionDay}
+        />
       )}
     </>
   );

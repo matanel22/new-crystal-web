@@ -2,15 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import EmployeeFilter from "../../components/employees/EmployeeFilter";
-import PopupDelete from "../../components/PopupDelete";
-import Search from "../../components/ui/Search";
-import Table from "../../components/Table";
+import EmployeeFilter from "../../../components/employees/EmployeeFilter";
+import PopupDelete from "../../../components/PopupDelete";
+import Search from "../../../components/ui/Search";
+import Table from "../../../components/Table";
 
-import PopupFilterEmployees from "@/app/components/employees/PopupFilterEmployees";
+import PopupFilterEmployees from "@/components/employees/PopupFilterEmployees";
 import { parse, isEqual, isWithinInterval, parseISO } from "date-fns";
 
-import AddNewEmployee from "@/app/components/employees/AddNewEmployee";
+import AddNewEmployee from "@/components/employees/AddNewEmployee";
 import { Toaster } from "react-hot-toast";
 
 export default function Employees() {

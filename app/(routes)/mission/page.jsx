@@ -1,15 +1,18 @@
 "use client";
-import Search from "../../components/ui/Search";
+import Search from "../../../components/ui/Search";
 import Image from "next/image";
-import { useState } from "react";
-import PopupDelete from "@/app/components/PopupDelete";
-import FilterMission from "@/app/components/FilterMission";
+import { useEffect, useState } from "react";
+import PopupDelete from "@/components/PopupDelete";
+import FilterMission from "@/components/FilterMission";
 import { parse, isEqual, isWithinInterval } from "date-fns";
-import PopupMission from "@/app/components/missions/PopupMission";
+import PopupMission from "@/components/missions/PopupMission";
 import * as XLSX from "xlsx";
-import MainTable from "@/app/components/table/MainTable";
-import { DeleteLogic, TextCellLogic } from "@/app/components/table/cellLogics";
-import Button from "@/app/components/ui/Button";
+import MainTable from "@/components/table/MainTable";
+import { DeleteLogic, TextCellLogic } from "@/components/table/cellLogics";
+import Button from "@/components/ui/Button";
+import { getAllMissions } from "@/api/missions";
+import { login } from "@/api/login";
+import PopupToEditMission from "@/components/missions/popupToEditMission";
 
 const data = [
   {
@@ -215,7 +218,8 @@ const btnTxt = [
   "ייצוא לאקסל",
 ];
 export default function Mission() {
-  // const [updateMode, setUpdateMode] = useState(null);
+  const [popupToEditMission, setPopupToEditMission] = useState(null);
+  const [reportData, setReportData] = useState([]);
 
   //FOR CONTAIN THE MISSION
   const [missions, setMissions] = useState(data);
@@ -232,89 +236,15 @@ export default function Mission() {
   // מביא את הסינון
   const [filterData, setFilterData] = useState(null);
 
-  //   fetchMissions();
-  // }, []);
+  useEffect( () => {
+    async function x() {
+      
+      await login({ employee_number: 1111111 });
+      getAllMissions();
+    }
+    x()
+  }, []);
 
-  // מביא את כל המשימות או את הסינון
-  // const showMissionsOrFilter = filterData
-  //   ? missions.filter((mission) => {
-  //       let matches = true;
-
-  //       // ממיר סטרינג מתאריך המשימה לאובייקט כדי לבדוק אותו
-  //       const missionOpeningDate = parse(
-  //         mission.Opening_date,
-  //         "dd/MM/yyyy",
-  //         new Date()
-  //       );
-  //       const missionClosingDate = parse(
-  //         mission.Closing_date,
-  //         "dd/MM/yyyy",
-  //         new Date()
-  //       );
-
-  //       // ממיר סטרינג מתאריך הפילטר לאובייקט כדי לבדוק אותו
-  //       const filterOpeningDate = filterData?.Opening_date
-  //         ? parse(filterData.Opening_date, "yyyy-MM-dd", new Date())
-  //         : null;
-  //       const filterClosingDate = filterData?.Closing_date
-  //         ? parse(filterData.Closing_date, "yyyy-MM-dd", new Date())
-  //         : null;
-
-  //       // פילטר שנה
-  //       if (filterData?.Year && mission.Year !== filterData.Year) {
-  //         matches = false;
-  //       }
-
-  //       // פילטר גמ"ש
-  //       if (
-  //         filterData?.Paying_factor &&
-  //         mission.Paying_factor !== filterData.Paying_factor
-  //       ) {
-  //         matches = false;
-  //       }
-
-  //       // פילטר סטטוס
-  //       if (filterData?.Status && mission.Status !== filterData.Status) {
-  //         matches = false;
-  //       }
-
-  //       // פילטר רק על תאריך פתיחה
-  //       if (filterOpeningDate && !filterClosingDate) {
-  //         if (!isEqual(missionOpeningDate, filterOpeningDate)) {
-  //           matches = false;
-  //         }
-  //       }
-
-  //       // פילטר רק על תאריך סגירה
-  //       if (filterClosingDate && !filterOpeningDate) {
-  //         if (!isEqual(missionClosingDate, filterClosingDate)) {
-  //           matches = false;
-  //         }
-  //       }
-
-  //       // פילטר על התאריכים
-  //       if (filterOpeningDate && filterClosingDate) {
-  //         const isInRange =
-  //           isWithinInterval(missionOpeningDate, {
-  //             start: filterOpeningDate,
-  //             end: filterClosingDate,
-  //           }) &&
-  //           isWithinInterval(missionClosingDate, {
-  //             start: filterOpeningDate,
-  //             end: filterClosingDate,
-  //           });
-
-  //         if (!isInRange) {
-  //           matches = false;
-  //         }
-  //       }
-  //       return matches;
-  //     })
-  //   : missions;
-
-  {
-    /*DELETE  EMPLOYEES*/
-  }
   const deleteMission = async (mission) => {
     console.log(mission, "gg");
 
@@ -373,6 +303,11 @@ export default function Mission() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const onRowClick = (id, data) => {
+    setReportData(data);
+    console.log(reportData?.id);
   };
 
   const allColumnLogics = {
@@ -444,7 +379,18 @@ export default function Mission() {
           headTable={headTable}
           initialTableData={data}
           cellsLogics={allColumnLogics}
+          columnCellLogics={onRowClick}
         />
+
+        {reportData?.id && (
+          <PopupToEditMission
+            value={popupToEditMission}
+            closePopup={setPopupToEditMission}
+            deleteEmployee={deleteMission}
+            setReportData={setReportData}
+            reportData={reportData}
+          />
+        )}
 
         {showConfirmation && (
           <PopupDelete

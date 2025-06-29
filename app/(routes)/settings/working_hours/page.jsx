@@ -1,6 +1,6 @@
-import SettingsSearch from "@/app/components/settings/SettingsSearch";
+import SettingsSearch from "@/components/settings/SettingsSearch";
 
-import TabieSettings from "@/app/components/settings/TableSettings";
+import TabieSettings from "@/components/settings/TableSettings";
 import Image from "next/image";
 import React from "react";
 
@@ -79,7 +79,7 @@ export default function activity() {
       <div className="h-full w-full flex flex-col ">
         <div className="flex justify-between items-center w-full pb-2">
           <div className="w-full font-bold text-4xl">תמחור שעות עבודה</div>
-          <SettingsSearch fields={addFormFields}/>
+          <SettingsSearch fields={addFormFields} />
         </div>
 
         <TabieSettings data={data} headers={headers} />

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import Search from "../../components/ui/Search";
-import But from "../../components/Btn";
+import Search from "../../../components/ui/Search";
+import But from "../../../components/Btn";
 
 export default function page() {
   const inputs = [

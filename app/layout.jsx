@@ -1,9 +1,9 @@
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
-import Header from "./components/ui/Header";
-import Search from "./components/ui/Search";
+import Header from "../components/ui/Header";
+import Search from "../components/ui/Search";
 import { Bounce, ToastContainer } from "react-toastify";
-import { AuthProvider } from "./hooks/AuthContext";
+import { AuthProvider } from "../hooks/AuthContext";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],

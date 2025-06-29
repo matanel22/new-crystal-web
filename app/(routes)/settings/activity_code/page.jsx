@@ -1,7 +1,6 @@
+import SettingsSearch from "@/components/settings/SettingsSearch";
 
-import SettingsSearch from "@/app/components/settings/SettingsSearch";
-
-import TabieSettings from "@/app/components/settings/TableSettings";
+import TabieSettings from "@/components/settings/TableSettings";
 import Image from "next/image";
 import React from "react";
 
@@ -13,10 +12,7 @@ export default function activity() {
     "תאריך סיום",
     "קוד לביא",
   ];
-  
-  
 
- 
   const activity_code = [
     {
       activity_type: "axcvג",
@@ -494,22 +490,17 @@ export default function activity() {
       namber: 1,
       activity: "חג",
     },
-    
   ];
   return (
     <>
-    <div className="h-full w-full flex flex-col ">
-       <div className="flex justify-between items-center w-full pb-2">
-        <div className="w-full font-bold text-4xl">ניהול קודי פעילות</div>
-        <SettingsSearch/>
-         </div>
-        
-    <TabieSettings
-    data={activity_code}
-    headers={headers}/>
-    
-    </div>
+      <div className="h-full w-full flex flex-col ">
+        <div className="flex justify-between items-center w-full pb-2">
+          <div className="w-full font-bold text-4xl">ניהול קודי פעילות</div>
+          <SettingsSearch />
+        </div>
+
+        <TabieSettings data={activity_code} headers={headers} />
+      </div>
     </>
-      );
+  );
 }
-   

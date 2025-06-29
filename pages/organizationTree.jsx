@@ -10,14 +10,14 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import dagre from "dagre";
-import CustomNode from "@/app/components/organizationTree/CustomNode";
-import CustomEdge from "@/app/components/organizationTree/CustomEdge";
-import BtnWithSelectPopUp from "@/app/components/organizationTree/BtnWithSelectPopUp";
-import axios from "@/app/lib/axios";
-import PopupDisconnect from "@/app/components/organizationTree/PopupDisconnect";
-import PopupDelete from "@/app/components/organizationTree/PopupDelete";
-import Header from "@/app/components/ui/Header";
-import { addNewUnitInServer } from "@/app/components/organizationTree/PopUpCreateUnit";
+import CustomNode from "@/components/organizationTree/CustomNode";
+import CustomEdge from "@/components/organizationTree/CustomEdge";
+import BtnWithSelectPopUp from "@/components/organizationTree/BtnWithSelectPopUp";
+import axios from "@/lib/axios";
+import PopupDisconnect from "@/components/organizationTree/PopupDisconnect";
+import PopupDelete from "@/components/organizationTree/PopupDelete";
+import Header from "@/components/ui/Header";
+import { addNewUnitInServer } from "@/components/organizationTree/PopUpCreateUnit";
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));

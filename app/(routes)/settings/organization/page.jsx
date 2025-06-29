@@ -1,12 +1,12 @@
 "use client";
-import SettingsSearch from "@/app/components/settings/SettingsSearch";
+import SettingsSearch from "@/components/settings/SettingsSearch";
 
-import TabieSettings from "@/app/components/settings/TableSettings";
+import TabieSettings from "@/components/settings/TableSettings";
 import Image from "next/image";
 
-import OrganizationTable from "@/app/components/settings/organization/OrganizationTable";
+import OrganizationTable from "@/components/settings/organization/OrganizationTable";
 import { useEffect, useState } from "react";
-import axios from "@/app/lib/axios";
+import axios from "@/lib/axios";
 
 export default function organization() {
   const headers = ["שם יחידה", "ראש יחידה", "מייל ראש יחידה", "קוד לביא"];

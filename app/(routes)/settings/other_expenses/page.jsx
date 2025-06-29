@@ -1,7 +1,7 @@
 "use client";
-import SettingsSearch from "@/app/components/settings/SettingsSearch";
+import SettingsSearch from "@/components/settings/SettingsSearch";
 
-import TabieSettings from "@/app/components/settings/TableSettings";
+import TabieSettings from "@/components/settings/TableSettings";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -38,7 +38,7 @@ export default function activity() {
   ]);
 
   const headers = ["#", "שם משאב", "מחיר צבאי", 'מחיר משהב"ט', 'מחיר סיב"ט'];
-  
+
   const addFormFields = [
     {
       name: "name",
@@ -92,10 +92,10 @@ export default function activity() {
       <div className="h-full w-full flex flex-col ">
         <div className="flex justify-between items-center w-full pb-2">
           <div className="w-full font-bold text-4xl">ניהול הוצאות אחרות</div>
-          <SettingsSearch  fields={addFormFields}/>
+          <SettingsSearch fields={addFormFields} />
         </div>
 
-        <TabieSettings data={data} headers={headers}  />
+        <TabieSettings data={data} headers={headers} />
       </div>
     </>
   );
